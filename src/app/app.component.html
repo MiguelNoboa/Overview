@@ -13,8 +13,47 @@
 
 <button (click)="sendValues()">Enviar</button> -->
 
-<div >
-  <mat-form-field appearance="fill">
-    <mat-label>Nombre</mat-label>
-  <input matInput [formControl]="name" type="text"> </mat-form-field>
+<div style="width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+
+  <div [formGroup]="form" style="width: 100vw; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px;">
+
+    <mat-form-field appearance="fill">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="name">
+          <div *ngIf="form.get('name')!.invalid && form.get('name')!.touched">
+          <mat-error *ngIf="form.get('name')!.errors!['required']">El nombre es requerido</mat-error>
+        </div>
+    </mat-form-field>
+      <p>
+      {{name.value}}
+      </p>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email">
+        <div *ngIf="form.get('email')!.invalid && form.get('email')!.touched">
+        <mat-error *ngIf="form.get('email')!.errors!['required']">El email es requerido</mat-error>
+        <mat-error *ngIf="form.get('email')!.errors!['email']">El email no es válido</mat-error>
+        </div>
+     </mat-form-field>
+      <p>
+      {{email.value}}
+      </p>
+
+      <mat-form-field appearance="fill">
+          <mat-label>Telefóno </mat-label>
+          <input matInput formControlName="phoneNumber" >
+          <div *ngIf="form.get('phoneNumber')!.invalid && form.get('phoneNumber')!.touched">
+            <mat-error *ngIf="form.get('phoneNumber')!.errors!['required']">El numero de telefono es requerido</mat-error>
+            <mat-error *ngIf="form.controls['phoneNumber']!.errors!['minLength']">El # es invalido, debe ser 10 caractares</mat-error>
+        </div>
+      </mat-form-field>
+      <p>
+      {{phoneNumber.value}}
+      </p>
+
+      <button mat-raised-button color="primary" (click)="sendValues()" [disabled]="form.invalid">Enviar</button>
+
+  </div>
+
 </div>
