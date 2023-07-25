@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -7,14 +7,28 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  //title = 'angular-fe-overview';
-  // name: string | undefined;
-  // email: string | undefined;
-  // phoneNumber: number | undefined;
 
-  // sendValues() {
-  //   console.log(this.name, this.email, this.phoneNumber)
-  // }
+  name: FormControl = new FormControl('', Validators.required,);
+  email: FormControl = new FormControl('', [Validators.email, Validators.required]);
+  phoneNumber: FormControl = new FormControl ('');
 
-  name: FormControl = new FormControl('')
+  form: FormGroup;
+
+  constructor(
+    private formbuilder: FormBuilder
+  ){
+    this.form= this.formbuilder.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phoneNumber: ['', [Validators.required, Validators.minLength(10)]] //para corrobar que sea # telefonico
+    });
+  }
+
+
+
+  sendValues(){
+    console.log(this.name.value);
+    this.form.reset();//restablece valores iniciales en el formulario
+  }
+
 };
